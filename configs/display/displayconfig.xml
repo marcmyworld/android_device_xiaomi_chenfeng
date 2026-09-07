@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<!-- MIUI ADD: Adapt_MIUIAdaptFrame-->
 <displayConfiguration>
     <!-- Global Brightness-Nit mapping -->
     <screenBrightnessMap>
@@ -11,12 +12,20 @@
             <nits>500.0</nits>
         </point>
         <point>
-            <value>0.999816872</value>
-            <nits>1200.0</nits>
+            <value>0.699914540</value>
+            <nits>700.0</nits>
+        </point>
+        <point>
+            <value>0.808082041</value>
+            <nits>1000.0</nits>
+        </point>
+        <point>
+            <value>0.952386766</value>
+            <nits>1400.0</nits>
         </point>
         <point>
             <value>1.0</value>
-            <nits>2400.0</nits>
+            <nits>2800</nits>
         </point>
     </screenBrightnessMap>
     <!-- root node for HBM-->
@@ -40,9 +49,21 @@
         <thermalStatusLimit>critical</thermalStatusLimit>
         <!-- Low power mode limitation for HBM -->
         <allowInLowPowerMode>true</allowInLowPowerMode>
+        <minimumHdrPercentOfScreen>0</minimumHdrPercentOfScreen>
+        <sdrHdrRatioMap>
+            <point>
+                <sdrNits>2.0</sdrNits>
+                <hdrRatio>8.0</hdrRatio>
+            </point>
+            <point>
+                <sdrNits>1400.0</sdrNits>
+                <hdrRatio>8.0</hdrRatio>
+            </point>
+        </sdrHdrRatioMap>
     </highBrightnessMode>
     <screenBrightnessRampFastDecrease>0.41590282</screenBrightnessRampFastDecrease>
     <screenBrightnessRampFastIncrease>0.41590282</screenBrightnessRampFastIncrease>
     <ambientLightHorizonLong>3000</ambientLightHorizonLong>
     <ambientLightHorizonShort>1000</ambientLightHorizonShort>
 </displayConfiguration>
+<!-- END Adapt_MIUIAdaptFrame-->
