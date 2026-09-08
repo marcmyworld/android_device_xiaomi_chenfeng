@@ -172,4 +172,7 @@
 
     <!-- Indicates whether the network-centric QoS policy feature is enabled. -->
     <bool name="config_wifiNetworkCentricQosPolicyFeatureEnabled" translatable="false">true</bool>
+
+    <!-- Default access point SSID used for tethering -->
+    <string name="wifi_tether_configure_ssid_default" translatable="false">Xiaomi 14 Civi</string>
 </resources>

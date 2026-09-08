@@ -333,9 +333,7 @@ PRODUCT_PACKAGES += \
     SettingsProviderOverlayChenfengRedmi \
     SystemUIOverlayChenfeng \
     TelephonyOverlayChenfeng \
-    WifiOverlayChenfeng \
-    WifiOverlayChenfengPOCO \
-    WifiOverlayChenfengRedmi
+    WifiOverlayChenfeng
 
 # Parts
 PRODUCT_PACKAGES += \
