@@ -195,7 +195,14 @@ PRODUCT_COPY_FILES += \
 
 # GNSS
 PRODUCT_COPY_FILES += \
+    device/xiaomi/chenfeng/rootdir/etc/android.hardware.gnss-aidl-service-qti.rc:$(TARGET_COPY_OUT_ODM)/etc/init/android.hardware.gnss-aidl-service-qti.rc
+
+PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.location.gps.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.location.gps.xml
+
+# GNSS Hardware Provider
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.hardware.gps=qc_gnss
 
 # Health
 PRODUCT_PACKAGES += \

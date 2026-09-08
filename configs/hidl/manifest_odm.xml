@@ -4,4 +4,14 @@
          blocks system_server's main thread on waitForService() → watchdog kills system_server
          → bootloop. Removing the declaration makes the framework skip it (boot fix). Restore
          with a working contexthub-service.qmi.rc to re-enable the sensor hub later. -->
+
+    <!-- Android Standard GNSS AIDL -->
+    <hal format="aidl">
+        <name>android.hardware.gnss</name>
+        <version>3</version>
+        <interface>
+            <name>IGnss</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
 </manifest>
