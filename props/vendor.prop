@@ -89,7 +89,7 @@ vendor.wv.oemcrypto.debug.enable_hlos_data_path=true
 
 # Fingerprint
 persist.vendor.fingerprint.type=udfps_optical
-persist.vendor.fingerprint.sensor_location=600|2470|105
+persist.vendor.fingerprint.sensor_location=612|2479|108
 persist.vendor.fingerprint.sensor_modules=goodix_fod
 
 # FRP
