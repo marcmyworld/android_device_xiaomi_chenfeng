@@ -329,8 +329,8 @@ PRODUCT_PACKAGES += \
     NfcOverlayChenfeng \
     SecureElementOverlayChenfeng \
     SettingsOverlayChenfeng \
-    SettingsProviderOverlayChenfengPOCO \
-    SettingsProviderOverlayChenfengRedmi \
+    SettingsProviderOverlayChenfeng \
+    SettingsProviderOverlayChenfengCN \
     SystemUIOverlayChenfeng \
     TelephonyOverlayChenfeng \
     WifiOverlayChenfeng

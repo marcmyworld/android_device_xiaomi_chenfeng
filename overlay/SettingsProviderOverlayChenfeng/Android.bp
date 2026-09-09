@@ -4,15 +4,15 @@
 //
 
 runtime_resource_overlay {
-    name: "SettingsProviderOverlayChenfengPOCO",
-    manifest: "AndroidManifest-POCO.xml",
-    resource_dirs: ["res-POCO"],
+    name: "SettingsProviderOverlayChenfeng",
+    manifest: "AndroidManifest.xml",
+    resource_dirs: ["res"],
     vendor: true,
 }
 
 runtime_resource_overlay {
-    name: "SettingsProviderOverlayChenfengRedmi",
-    manifest: "AndroidManifest-Redmi.xml",
-    resource_dirs: ["res-Redmi"],
+    name: "SettingsProviderOverlayChenfengCN",
+    manifest: "AndroidManifest-CN.xml",
+    resource_dirs: ["res-CN"],
     vendor: true,
 }

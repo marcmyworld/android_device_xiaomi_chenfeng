@@ -3,10 +3,10 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.settingsproviders.chenfeng.redmi">
+    package="com.android.settingsproviders.chenfeng.cn">
     <overlay android:targetPackage="com.android.providers.settings"
                    android:isStatic="true"
-                   android:priority="851"
+                   android:priority="852"
                    android:requiredSystemPropertyName="ro.boot.hwc"
                    android:requiredSystemPropertyValue="CN"/>
 </manifest>
