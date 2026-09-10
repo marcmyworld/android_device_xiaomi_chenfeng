@@ -103,10 +103,12 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml
 
+# Camera shims
 PRODUCT_PACKAGES += \
     libcamerahdr_shim \
     libcameraflare_shim \
-    libcameraplugin_shim
+    libcameraplugin_shim \
+    libcamera_snpe_shim
 
 # Boot control
 PRODUCT_PACKAGES += \

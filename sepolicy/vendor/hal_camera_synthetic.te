@@ -1,0 +1,13 @@
+#
+# Copyright (C) 2024 The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+type hal_camera_synthetic_service, hal_service_type, protected_service, service_manager_type;
+
+# Allow camera HAL to add the synthetic camera registrar service
+add_service(hal_camera_server, hal_camera_synthetic_service)
+add_service(hal_camera_default, hal_camera_synthetic_service)
+
+# Allow camera clients to find it
+allow hal_camera_client hal_camera_synthetic_service:service_manager find;
