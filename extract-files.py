@@ -89,6 +89,14 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
+    (
+        'odm/lib64/camera/components/com.mi.node.tsskinbeautifier.so',
+        'odm/lib64/camera/components/com.jigan.node.videobokeh.so',
+        'odm/lib64/camera/plugins/com.xiaomi.plugin.filter.so',
+        'odm/lib64/libcom.xiaomi.grallocutils.so',
+    ): blob_fixup()
+        .sig_replace('00 20 80 52', '00 a6 81 52'),
+
     'system_ext/etc/vintf/manifest/vendor.qti.qesdsys.service.xml': blob_fixup()
         .regex_replace(r'(?s)^.*?(?=<manifest)', ''),
     'system_ext/lib64/libwfdmmsrc_system.so': blob_fixup()
@@ -314,6 +322,7 @@ blob_fixups: blob_fixups_user_type = {
     ): blob_fixup()
         .clear_symbol_version('AHardwareBuffer_allocate')
         .clear_symbol_version('AHardwareBuffer_describe')
+        .clear_symbol_version('AHardwareBuffer_isSupported')
         .clear_symbol_version('AHardwareBuffer_lock')
         .clear_symbol_version('AHardwareBuffer_lockPlanes')
         .clear_symbol_version('AHardwareBuffer_release')
