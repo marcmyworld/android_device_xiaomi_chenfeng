@@ -155,6 +155,10 @@ $(foreach display_id, 4630947195234848131 4630947033261136259 463094654558005517
         $(LOCAL_PATH)/configs/display/displayconfig.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_$(display_id).xml \
     ))
 
+# Device Features
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/device_features/chenfeng.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/device_features/chenfeng.xml
+
 # Dolby
 # PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/dolby/dax-default.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-default.xml \

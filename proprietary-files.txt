@@ -3472,3 +3472,6 @@ vendor/lib64/vendor.xiaomi.hardware.camera.synthetic-V1-ndk.so
 # --- added 2026-06-22: IMS library DECLARATIONS (jars present but undeclared → org.codeaurora.ims
 # fails uses-library scan → no ImsService → no VoLTE/calls). Fixes call audio/mic on VoLTE carriers. ---
 product/etc/permissions/ims_ext_common.xml
+odm/etc/camera/cameradfx_config.json
+odm/etc/camera/CFR_para_UW_V01.bin
+odm/etc/camera/cameraopt_reclaim.json
