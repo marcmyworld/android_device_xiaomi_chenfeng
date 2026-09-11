@@ -49,6 +49,7 @@ odm/lib/rfsa/adsp/libQnnSaver.so
 odm/lib/rfsa/adsp/libQnnSystem.so
 odm/lib/rfsa/adsp/libSnpeHtpV75Skel.so;SYMLINK=vendor/lib/rfsa/adsp/libSnpeHtpV75Skel.so
 odm/lib/rfsa/adsp/libadsp_jpege_skel.so
+odm/lib/rfsa/adsp/libaisupernight_ellc_cdsp_skel.so
 odm/lib/rfsa/adsp/libarc_htp_driver_skel.so
 odm/lib/rfsa/adsp/libarcsoft_beauty_hvx_skel.so
 odm/lib/rfsa/adsp/libbitml_nsp_skel.so
@@ -56,12 +57,16 @@ odm/lib/rfsa/adsp/libdsp_streamer_binning.so
 odm/lib/rfsa/adsp/libhme_dsp_skel.so
 odm/lib/rfsa/adsp/libmctfengine_skel.so
 odm/lib/rfsa/adsp/libmialgo_ai_process_cdsp_skel.so
+odm/lib/rfsa/adsp/libmialgo_antibanding_cdsp_skel.so
 odm/lib/rfsa/adsp/libmialgo_basic_cdsp_skel.so
 odm/lib/rfsa/adsp/libmialgo_bokeh_depth_cdsp_skel.so
 odm/lib/rfsa/adsp/libmialgo_bokeh_effect_cdsp_skel.so
 odm/lib/rfsa/adsp/libmialgo_ell_cdsp_skel.so
 odm/lib/rfsa/adsp/libmialgo_mc_bokeh_cdsp_skel.so
+odm/lib/rfsa/adsp/libmialgo_night_align_cdsp_skel.so
 odm/lib/rfsa/adsp/libmialgo_rfs_cdsp_skel.so
+odm/lib/rfsa/adsp/libmialgo_tracker_cdsp_skel.so
+odm/lib/rfsa/adsp/libmiphone_capture_mdbokeh_cdsp_skel.so
 odm/lib/rfsa/adsp/libmlawbpostproc_dsp_skel.so
 odm/mount/camera/lib/rfsa/adsp/libSnpeHtpV73Skel.so:vendor/lib/rfsa/adsp/libSnpeHtpV73Skel.so
 odm/mount/camera/lib64/rfs/dsp/libbitml_nsp_73nb_skel.so:vendor/lib64/rfs/dsp/libbitml_nsp_73nb_skel.so

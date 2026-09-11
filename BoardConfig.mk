@@ -6,6 +6,9 @@
 
 DEVICE_PATH := device/xiaomi/chenfeng
 
+# Apply required source tree patches
+$(shell bash $(DEVICE_PATH)/apply-patches.sh)
+
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES = true
 # Our locally-extracted stock blobs (A14-era) trip soong's ELF symbol check against the A16

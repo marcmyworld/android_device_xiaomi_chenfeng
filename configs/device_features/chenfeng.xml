@@ -81,6 +81,10 @@
     <string-array name="camera_exposable_role_id">
         <!-- REAR -->
         <item>0</item>
+        <!-- FRONT -->
+        <item>1</item>
+        <!-- FRONT ULTRA -->
+        <item>40</item>
         <!-- UW -->
         <item>21</item>
         <!-- BOKEH -->

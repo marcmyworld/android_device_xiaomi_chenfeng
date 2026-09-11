@@ -1,0 +1,28 @@
+From 4fc41d2ee074a85cbd2fd39191d7e145d17fe0b2 Mon Sep 17 00:00:00 2001
+From: marcmyworld <moviesminister@gmail.com>
+Date: Fri, 11 Sep 2026 16:53:20 +0530
+Subject: [PATCH] uprobestats: Lower min_sdk_version to 35
+
+Fix build failure caused by missing crtbegin_so version 36 in prebuilt NDK.
+
+Change-Id: I81be4fe0402078c22e3c9cead5d9b080c6fea8e4
+---
+ service/aidl/Android.bp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/service/aidl/Android.bp b/service/aidl/Android.bp
+index 06c9279..31a5dfc 100644
+--- a/service/aidl/Android.bp
++++ b/service/aidl/Android.bp
+@@ -27,7 +27,7 @@ aidl_interface {
+     name: "uprobestats-service-aidl",
+     srcs: [":uprobestats-service-aidl-sources"],
+     unstable: true,
+-    min_sdk_version: "36",
++    min_sdk_version: "35",
+     backend: {
+         java: {
+             additional_libs: ["framework-annotations-lib"],
+-- 
+2.55.0
+

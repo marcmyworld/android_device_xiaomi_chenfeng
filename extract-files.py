@@ -5,8 +5,6 @@
 #
 
 from extract_utils.fixups_blob import (
-    BlobFixupCtx,
-    File,
     blob_fixup,
     blob_fixups_user_type,
 )
@@ -17,12 +15,6 @@ from extract_utils.fixups_lib import (
 from extract_utils.main import (
     ExtractUtils,
     ExtractUtilsModule,
-)
-from extract_utils.tools import (
-    llvm_objdump_path,
-)
-from extract_utils.utils import (
-    run_cmd,
 )
 
 namespace_imports = [
@@ -35,32 +27,6 @@ namespace_imports = [
     'vendor/qcom/opensource/dataservices',
     'vendor/qcom/opensource/display',
 ]
-
-def blob_fixup_graphic_buffer_size(
-    ctx: BlobFixupCtx,
-    file: File,
-    file_path: str,
-    disassemble_symbols: [str],
-    *args,
-    **kwargs,
-):
-    for line in run_cmd(
-        [
-            llvm_objdump_path,
-            f'--disassemble-symbols={",".join(disassemble_symbols)}',
-            file_path,
-        ]
-    ).splitlines():
-        line = line.split(maxsplit=5)
-        if len(line) != 6:
-            continue
-
-        # The size of GraphicBuffer changed from 0x100 to 0xd30
-        offset, _, instruction, register, value, _ = line
-        if instruction == 'mov' and register[:-1] == 'w0' and value == '#0x100':
-            with open(file_path, 'rb+') as f:
-                f.seek(int(offset[:-1], 16))
-                f.write(b'\x00\xa6\x81\x52')  # AArch64 mov w0, #0xd30
 
 
 def lib_fixup_odm_suffix(lib: str, partition: str, *args, **kwargs):
@@ -89,13 +55,6 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
-    (
-        'odm/lib64/camera/components/com.mi.node.tsskinbeautifier.so',
-        'odm/lib64/camera/components/com.jigan.node.videobokeh.so',
-        'odm/lib64/camera/plugins/com.xiaomi.plugin.filter.so',
-        'odm/lib64/libcom.xiaomi.grallocutils.so',
-    ): blob_fixup()
-        .sig_replace('00 20 80 52', '00 a6 81 52'),
 
     'system_ext/etc/vintf/manifest/vendor.qti.qesdsys.service.xml': blob_fixup()
         .regex_replace(r'(?s)^.*?(?=<manifest)', ''),
@@ -150,16 +109,7 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed(
             'libtinyxml2.so',
             'libtinyxml2-v34.so'
-        )
-        .call(
-            blob_fixup_graphic_buffer_size,
-            [
-                '_ZN5mihal9GraBufferC2EjjimNSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE',
-                '_ZN5mihal9GraBufferC2EPKNS_6StreamENSt3__112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE',
-                '_ZN5mihal9GraBufferC2EjjimPK13native_handle',
-                '_ZN5mihal9GraBufferC2EPKNS_6StreamEPK13native_handle',
-            ],
-    ),
+        ),
     (
         'odm/lib64/camera/com.qti.actuator.chenfeng_aac_imx882_gt9764ber_wide_i_actuator.so',
         'odm/lib64/camera/com.qti.actuator.chenfeng_ofilm_imx882_aw86016csr_wide_ii_actuator.so',
@@ -321,6 +271,8 @@ blob_fixups: blob_fixups_user_type = {
         'odm/lib64/libmorpho_ubwc.so'
     ): blob_fixup()
         .clear_symbol_version('AHardwareBuffer_allocate')
+        .clear_symbol_version('AHardwareBuffer_createFromHandle')
+        .clear_symbol_version('AHardwareBuffer_getNativeHandle')
         .clear_symbol_version('AHardwareBuffer_describe')
         .clear_symbol_version('AHardwareBuffer_isSupported')
         .clear_symbol_version('AHardwareBuffer_lock')
