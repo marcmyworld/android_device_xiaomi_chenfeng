@@ -82,16 +82,16 @@
   </preset>
   <profile id="0" name="Dynamic" group="spatializer">
     <data>
-      <mi-dv-leveler-steering-enable value="true"/>
-      <mi-ieq-steering-enable value="true"/>
-      <mi-surround-compressor-steering-enable value="true"/>
-      <mi-adaptive-virtualizer-steering-enable value="true"/>
+      <mi-dv-leveler-steering-enable value="false"/>
+      <mi-ieq-steering-enable value="false"/>
+      <mi-surround-compressor-steering-enable value="false"/>
+      <mi-adaptive-virtualizer-steering-enable value="false"/>
       <volume-modeler-enable value="false"/>
       <drc-metadata/>
       <reverb-suppression-enable value="false"/>
       <reverb-suppression-amount value="0"/>
       <headphone-virtualizer-mode value="2"/>
-      <advanced-headphone-virtualizer-rendering-config value="120,32767,8703,3102,1,3,1,1"/>
+      <advanced-headphone-virtualizer-rendering-config value="120,32767,8910,3102,1,3,1,1"/>
       <surround-decoder-diffuse-relocating-to-front-amount value="0"/>
       <advanced-headphone-virtualizer-lr-angle value="45"/>
       <endpoint_type id="speaker">
@@ -107,7 +107,7 @@
         <peak-value value="256"/>
         <surround-decoder-enable value="true"/>
         <surround-boost value="96"/>
-        <volmax-boost value="48"/>
+        <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
         <hearing-protection-rms-averaging-time-win-len value="6"/>
         <hearing-protection-rms-attenuation-target value="-256"/>
@@ -143,7 +143,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -213,7 +213,7 @@
         <peak-value value="256"/>
         <surround-decoder-enable value="true"/>
         <surround-boost value="96"/>
-        <volmax-boost value="48"/>
+        <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
         <hearing-protection-rms-averaging-time-win-len value="6"/>
         <hearing-protection-rms-attenuation-target value="-256"/>
@@ -249,7 +249,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
