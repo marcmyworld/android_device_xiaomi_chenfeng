@@ -13,6 +13,8 @@ persist.vendor.audio.misoundasc=true
 ro.audio.flinger_standbytime_ms=2000
 ro.audio.monitorRotation=true
 ro.audio.spatializer_enabled=true
+ro.audio.stereo_spatialization_enabled=true
+ro.vendor.audio.spk.stereo=true
 ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1
 ro.vendor.audio.dolby.dax.version=DAX3_3.8.5.20_r1
 ro.vendor.audio.dolby.dax.support=true
@@ -85,6 +87,7 @@ ro.bluetooth.a2dp_offload.supported=true
 # Camera
 camera.disable_zsl_mode=false
 ro.camera.enableCamera1MaxZsl=1
+vendor.camera.aux.packagelist=com.android.camera,org.lineageos.aperture
 
 # DPM
 persist.vendor.dpm.vndr.feature=1
