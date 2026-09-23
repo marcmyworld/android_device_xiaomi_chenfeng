@@ -14,4 +14,9 @@
     <!-- Microns/ums (1000 um = 1mm) per pixel for the given device. If unspecified, UI that
          relies on this value will not be sized correctly. -->
     <item name="pixel_pitch" type="dimen">55.18</item>
+
+    <!-- Top padding of the status bar. Aligns status bar items and dynamic bar
+         with the physical camera pill centerline (pill: Y=38 to 134px, center Y=86.0px).
+         At 22.0px padding top, status bar icons and clock (heights 21-39px) layout at center Y=86.0px. -->
+    <dimen name="status_bar_padding_top">22.0px</dimen>
 </resources>
