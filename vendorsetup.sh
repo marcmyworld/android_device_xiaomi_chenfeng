@@ -36,7 +36,7 @@ fi
 
 # Clone custom ViPER4AndroidFX
 if [ ! -d "hardware/ViPER4AndroidFX" ]; then
-    git clone https://gitlab.com/xiaomi-chenfeng/viper4androidfx.git -b 17 hardware/ViPER4AndroidFX 2>/dev/null || git clone https://gitlab.com/xiaomi-chenfeng/viper4androidfx.git hardware/ViPER4AndroidFX 2>/dev/null || true
+    git clone https://gitlab.com/xiaomi-chenfeng/viper4androidfx.git -b main hardware/ViPER4AndroidFX
 fi
 
 
