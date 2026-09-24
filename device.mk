@@ -170,6 +170,9 @@ PRODUCT_COPY_FILES += \
 TARGET_PROVIDES_DOLBY_BLOBS := true
 $(call inherit-product-if-exists, hardware/dolby/dolby.mk)
 
+# ViPER4Android
+$(call inherit-product-if-exists, hardware/ViPER4AndroidFX/v4a.mk)
+
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
