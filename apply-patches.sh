@@ -45,3 +45,16 @@ if [ -d "${ANDROID_BUILD_TOP}/hardware/xiaomi" ]; then
         done
     fi
 fi
+
+# 4. frameworks/av: Downmix multichannel audio to stereo for ViPER4Android on AIDL HAL
+if [ -d "${ANDROID_BUILD_TOP}/frameworks/av" ]; then
+    if ! git -C "${ANDROID_BUILD_TOP}/frameworks/av" log -n 50 --grep="Overriding ViPER4Android channels to STEREO" --oneline 2>/dev/null | grep -q . && \
+       ! grep -q "Overriding ViPER4Android channels to STEREO" "${ANDROID_BUILD_TOP}/frameworks/av/services/audioflinger/Effects.cpp" 2>/dev/null; then
+        echo "[chenfeng] Applying frameworks/av ViPER4Android downmix patch..."
+        for patch in "${SCRIPT_DIR}/patches/frameworks_av/"*.patch; do
+            [ -f "$patch" ] && git -C "${ANDROID_BUILD_TOP}/frameworks/av" apply --ignore-whitespace "$patch" 2>/dev/null || \
+            patch -d "${ANDROID_BUILD_TOP}/frameworks/av" -p1 -N -r - < "$patch" >/dev/null 2>&1 || true
+        done
+    fi
+fi
+
