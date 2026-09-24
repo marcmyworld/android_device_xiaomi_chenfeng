@@ -34,6 +34,11 @@ if [ ! -d "hardware/dolby" ]; then
     git clone https://gitlab.com/xiaomi-chenfeng/hardware_dolby.git -b 17 hardware/dolby
 fi
 
+# Clone custom ViPER4AndroidFX
+if [ ! -d "hardware/ViPER4AndroidFX" ]; then
+    git clone https://gitlab.com/xiaomi-chenfeng/hardware_ViPER4AndroidFX.git -b 17 hardware/ViPER4AndroidFX 2>/dev/null || true
+fi
+
 
 # Apply required source tree patches for chenfeng
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
