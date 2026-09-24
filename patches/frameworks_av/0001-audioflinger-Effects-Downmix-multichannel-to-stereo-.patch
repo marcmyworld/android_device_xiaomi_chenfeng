@@ -1,0 +1,63 @@
+diff --git a/services/audioflinger/Effects.cpp b/services/audioflinger/Effects.cpp
+index 8bfae79..6931a9d 100644
+--- a/services/audioflinger/Effects.cpp
++++ b/services/audioflinger/Effects.cpp
+@@ -93,6 +93,15 @@ void writeToBuffer(const T& value, std::vector<uint8_t>* buffer) {
+ 
+ }  // namespace
+ 
++// ViperFx
++static const effect_uuid_t SL_V4A_RE_ = // 90380da3-8536-4744-a6a3-5731970e640f
++{ 0x90380da3, 0x8536, 0x4744, 0xa6a3, {0x57, 0x31, 0x97, 0x0e, 0x64, 0x0f} };
++const effect_uuid_t * const SL_V4A_RE = &SL_V4A_RE_;
++
++static const effect_uuid_t SL_V4A_FX_ = // 41d3c987-e6cf-11e3-a88a-11aba5d5c51b
++{ 0x41d3c987, 0xe6cf, 0x11e3, 0xa88a, {0x11, 0xab, 0xa5, 0xd5, 0xc5, 0x1b} };
++const effect_uuid_t * const SL_V4A_FX = &SL_V4A_FX_;
++
+ // ----------------------------------------------------------------------------
+ //  EffectBase implementation
+ // ----------------------------------------------------------------------------
+@@ -877,6 +886,22 @@ status_t EffectModule::configure_l()
+     mOutChannelCountRequested =
+             audio_channel_count_from_out_mask(mConfig.outputCfg.channels);
+ 
++    const bool isViper = (memcmp(&mDescriptor.type, SL_V4A_RE, sizeof(effect_uuid_t)) == 0) ||
++                         (memcmp(&mDescriptor.uuid, SL_V4A_RE, sizeof(effect_uuid_t)) == 0) ||
++                         (memcmp(&mDescriptor.type, SL_V4A_FX, sizeof(effect_uuid_t)) == 0) ||
++                         (memcmp(&mDescriptor.uuid, SL_V4A_FX, sizeof(effect_uuid_t)) == 0) ||
++                         (strcasestr(mDescriptor.name, "ViPER") != nullptr) ||
++                         (strcasestr(mDescriptor.implementor, "ViPER") != nullptr);
++
++    if (isViper && callback->isOutput() &&
++            (mConfig.inputCfg.channels != AUDIO_CHANNEL_OUT_STEREO
++                    || mConfig.outputCfg.channels != AUDIO_CHANNEL_OUT_STEREO)) {
++        ALOGI("%s: Overriding ViPER4Android channels to STEREO (thread channels: in=%u, out=%u)",
++              __func__, mInChannelCountRequested, mOutChannelCountRequested);
++        mConfig.inputCfg.channels = AUDIO_CHANNEL_OUT_STEREO;
++        mConfig.outputCfg.channels = AUDIO_CHANNEL_OUT_STEREO;
++    }
++
+     mConfig.inputCfg.format = AUDIO_FORMAT_PCM_FLOAT;
+     mConfig.outputCfg.format = AUDIO_FORMAT_PCM_FLOAT;
+ 
+@@ -927,7 +952,6 @@ status_t EffectModule::configure_l()
+     }
+ 
+     if (status != NO_ERROR &&
+-            EffectConfiguration::isHidl() && // only HIDL effects support channel conversion
+             mIsOutput &&
+             (mConfig.inputCfg.channels != AUDIO_CHANNEL_OUT_STEREO
+                     || mConfig.outputCfg.channels != AUDIO_CHANNEL_OUT_STEREO)) {
+@@ -2981,11 +3005,6 @@ static const effect_uuid_t SL_IID_DAP_SW_ = // 9d4921da-8225-4f29-aefa-39537a04b
+ { 0x9d4921da, 0x8225, 0x4f29, 0xaefa, {0x39, 0x53, 0x7a, 0x04, 0xbc, 0xaa} };
+ const effect_uuid_t * const SL_IID_DAP_SW = &SL_IID_DAP_SW_;
+ 
+-// ViperFx
+-static const effect_uuid_t SL_V4A_RE_ = // 90380da3-8536-4744-a6a3-5731970e640f
+-{ 0x90380da3, 0x8536, 0x4744, 0xa6a3, {0x57, 0x31, 0x97, 0x0e, 0x64, 0x0f} };
+-const effect_uuid_t * const SL_V4A_RE = &SL_V4A_RE_;
+-
+ /* static */
+ bool EffectChain::isEffectEligibleForBtNrecSuspend_l(const effect_uuid_t* type) {
+     // Only NS and AEC are suspended when BtNRec is off
