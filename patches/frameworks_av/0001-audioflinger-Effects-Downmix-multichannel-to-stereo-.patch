@@ -1,5 +1,15 @@
+From b7949285c1fa153ee55c56026f3b3b0948cac8e7 Mon Sep 17 00:00:00 2001
+From: marcmyworld <moviesminister@gmail.com>
+Date: Fri, 25 Sep 2026 03:41:00 +0530
+Subject: [PATCH] audioflinger: Effects: Downmix multichannel audio to stereo
+ for ViPER4Android
+
+---
+ services/audioflinger/Effects.cpp | 33 +++++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 6 deletions(-)
+
 diff --git a/services/audioflinger/Effects.cpp b/services/audioflinger/Effects.cpp
-index 8bfae79..6931a9d 100644
+index 8bfae79..72d62d9 100644
 --- a/services/audioflinger/Effects.cpp
 +++ b/services/audioflinger/Effects.cpp
 @@ -93,6 +93,15 @@ void writeToBuffer(const T& value, std::vector<uint8_t>* buffer) {
@@ -18,30 +28,32 @@ index 8bfae79..6931a9d 100644
  // ----------------------------------------------------------------------------
  //  EffectBase implementation
  // ----------------------------------------------------------------------------
-@@ -877,6 +886,22 @@ status_t EffectModule::configure_l()
+@@ -877,6 +886,24 @@ status_t EffectModule::configure_l()
      mOutChannelCountRequested =
              audio_channel_count_from_out_mask(mConfig.outputCfg.channels);
  
-+    const bool isViper = (memcmp(&mDescriptor.type, SL_V4A_RE, sizeof(effect_uuid_t)) == 0) ||
-+                         (memcmp(&mDescriptor.uuid, SL_V4A_RE, sizeof(effect_uuid_t)) == 0) ||
-+                         (memcmp(&mDescriptor.type, SL_V4A_FX, sizeof(effect_uuid_t)) == 0) ||
-+                         (memcmp(&mDescriptor.uuid, SL_V4A_FX, sizeof(effect_uuid_t)) == 0) ||
-+                         (strcasestr(mDescriptor.name, "ViPER") != nullptr) ||
-+                         (strcasestr(mDescriptor.implementor, "ViPER") != nullptr);
++    {
++        const bool isViper = (memcmp(&mDescriptor.type, SL_V4A_RE, sizeof(effect_uuid_t)) == 0) ||
++                             (memcmp(&mDescriptor.uuid, SL_V4A_RE, sizeof(effect_uuid_t)) == 0) ||
++                             (memcmp(&mDescriptor.type, SL_V4A_FX, sizeof(effect_uuid_t)) == 0) ||
++                             (memcmp(&mDescriptor.uuid, SL_V4A_FX, sizeof(effect_uuid_t)) == 0) ||
++                             (strcasestr(mDescriptor.name, "ViPER") != nullptr) ||
++                             (strcasestr(mDescriptor.implementor, "ViPER") != nullptr);
 +
-+    if (isViper && callback->isOutput() &&
-+            (mConfig.inputCfg.channels != AUDIO_CHANNEL_OUT_STEREO
-+                    || mConfig.outputCfg.channels != AUDIO_CHANNEL_OUT_STEREO)) {
-+        ALOGI("%s: Overriding ViPER4Android channels to STEREO (thread channels: in=%u, out=%u)",
-+              __func__, mInChannelCountRequested, mOutChannelCountRequested);
-+        mConfig.inputCfg.channels = AUDIO_CHANNEL_OUT_STEREO;
-+        mConfig.outputCfg.channels = AUDIO_CHANNEL_OUT_STEREO;
++        if (isViper && callback->isOutput() &&
++                (mConfig.inputCfg.channels != AUDIO_CHANNEL_OUT_STEREO
++                        || mConfig.outputCfg.channels != AUDIO_CHANNEL_OUT_STEREO)) {
++            ALOGI("%s: Overriding ViPER4Android channels to STEREO (thread channels: in=%u, out=%u)",
++                  __func__, mInChannelCountRequested, mOutChannelCountRequested);
++            mConfig.inputCfg.channels = AUDIO_CHANNEL_OUT_STEREO;
++            mConfig.outputCfg.channels = AUDIO_CHANNEL_OUT_STEREO;
++        }
 +    }
 +
      mConfig.inputCfg.format = AUDIO_FORMAT_PCM_FLOAT;
      mConfig.outputCfg.format = AUDIO_FORMAT_PCM_FLOAT;
  
-@@ -927,7 +952,6 @@ status_t EffectModule::configure_l()
+@@ -927,7 +954,6 @@ status_t EffectModule::configure_l()
      }
  
      if (status != NO_ERROR &&
@@ -49,7 +61,7 @@ index 8bfae79..6931a9d 100644
              mIsOutput &&
              (mConfig.inputCfg.channels != AUDIO_CHANNEL_OUT_STEREO
                      || mConfig.outputCfg.channels != AUDIO_CHANNEL_OUT_STEREO)) {
-@@ -2981,11 +3005,6 @@ static const effect_uuid_t SL_IID_DAP_SW_ = // 9d4921da-8225-4f29-aefa-39537a04b
+@@ -2981,11 +3007,6 @@ static const effect_uuid_t SL_IID_DAP_SW_ = // 9d4921da-8225-4f29-aefa-39537a04b
  { 0x9d4921da, 0x8225, 0x4f29, 0xaefa, {0x39, 0x53, 0x7a, 0x04, 0xbc, 0xaa} };
  const effect_uuid_t * const SL_IID_DAP_SW = &SL_IID_DAP_SW_;
  
@@ -61,3 +73,6 @@ index 8bfae79..6931a9d 100644
  /* static */
  bool EffectChain::isEffectEligibleForBtNrecSuspend_l(const effect_uuid_t* type) {
      // Only NS and AEC are suspended when BtNRec is off
+-- 
+2.55.0
+
