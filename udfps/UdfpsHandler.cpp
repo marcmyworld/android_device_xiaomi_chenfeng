@@ -12,6 +12,7 @@
 
 #include <poll.h>
 #include <sys/ioctl.h>
+#include <chrono>
 #include <fstream>
 #include <thread>
 
@@ -140,7 +141,15 @@ class XiaomiChenfengUdfpsHandler : public UdfpsHandler {
     }
 
     void onFingerDown(uint32_t x, uint32_t y, float /*minor*/, float /*major*/) {
-        LOG(DEBUG) << __func__ << "x: " << x << ", y: " << y;
+        auto now = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - mLastAuthSuccessTime).count();
+        if (elapsed < 500) {
+            LOG(DEBUG) << __func__ << " ignored: auth succeeded " << elapsed << "ms ago";
+            return;
+        }
+
+        LOG(DEBUG) << __func__ << " x: " << x << ", y: " << y;
         // Track x and y coordinates
         lastPressX = x;
         lastPressY = y;
@@ -159,13 +168,9 @@ class XiaomiChenfengUdfpsHandler : public UdfpsHandler {
         LOG(DEBUG) << __func__ << " result: " << result << " vendorCode: " << vendorCode;
         if (result != FINGERPRINT_ACQUIRED_VENDOR) {
             if (static_cast<AcquiredInfo>(result) == AcquiredInfo::GOOD) {
-            // Request to disable HBM already, even if the finger is still pressed
-            disp_local_hbm_req req;
-            req.base.flag = 0;
-            req.base.disp_id = MI_DISP_PRIMARY;
-            req.local_hbm_value = LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP;
-            ioctl(disp_fd_.get(), MI_DISP_IOCTL_SET_LOCAL_HBM, &req);
-            setFodStatus(FOD_STATUS_OFF);
+                // Request to disable HBM already, even if the finger is still pressed
+                setLocalHbm(LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP);
+                setFodStatus(FOD_STATUS_OFF);
             }
         } else if (vendorCode == 21 || vendorCode == 23) {
             /*
@@ -178,11 +183,27 @@ class XiaomiChenfengUdfpsHandler : public UdfpsHandler {
              * vendorCode = 44 fingerprint scan failed
              */
             setFingerDown(false);
+            setFodStatus(FOD_STATUS_OFF);
         }
+    }
+
+    void onAuthenticationSucceeded() {
+        LOG(DEBUG) << __func__;
+        mLastAuthSuccessTime = std::chrono::steady_clock::now();
+        setFingerDown(false);
+        setFodStatus(FOD_STATUS_OFF);
+    }
+
+    void onAuthenticationFailed() {
+        LOG(DEBUG) << __func__;
+        setFingerDown(false);
+        setFodStatus(FOD_STATUS_OFF);
     }
 
     void cancel() {
         LOG(DEBUG) << __func__;
+        mLastAuthSuccessTime = std::chrono::steady_clock::time_point::min();
+        setFingerDown(false);
         setFodStatus(FOD_STATUS_OFF);
     }
 
@@ -190,20 +211,32 @@ class XiaomiChenfengUdfpsHandler : public UdfpsHandler {
     fingerprint_device_t* mDevice;
     android::base::unique_fd disp_fd_;
     uint32_t lastPressX, lastPressY;
+    std::chrono::steady_clock::time_point mLastAuthSuccessTime =
+            std::chrono::steady_clock::time_point::min();
 
     void setFodStatus(int value) {
         set(FOD_STATUS_PATH, value);
     }
 
-    void setFingerDown(bool pressed) {
+    void setLocalHbm(uint32_t value) {
+        if (disp_fd_.get() < 0) {
+            disp_fd_ = android::base::unique_fd(open(DISP_FEATURE_PATH, O_RDWR));
+        }
+        if (disp_fd_.get() < 0) {
+            LOG(ERROR) << "failed to open " << DISP_FEATURE_PATH;
+            return;
+        }
 
-        // Request HBM
         disp_local_hbm_req req;
         req.base.flag = 0;
         req.base.disp_id = MI_DISP_PRIMARY;
-        req.local_hbm_value = pressed ? LHBM_TARGET_BRIGHTNESS_WHITE_1000NIT
-                                      : LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP;
+        req.local_hbm_value = value;
         ioctl(disp_fd_.get(), MI_DISP_IOCTL_SET_LOCAL_HBM, &req);
+    }
+
+    void setFingerDown(bool pressed) {
+        setLocalHbm(pressed ? LHBM_TARGET_BRIGHTNESS_WHITE_1000NIT
+                            : LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP);
 
         // Notify HAL of both press and release events
         mDevice->extCmd(mDevice, COMMAND_FOD_PRESS_STATUS,
