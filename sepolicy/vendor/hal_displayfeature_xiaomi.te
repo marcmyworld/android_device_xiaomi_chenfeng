@@ -48,4 +48,3 @@ add_service(vendor_hal_displayfeature_xiaomi_server, vendor_hal_displayfeature_x
 binder_call(vendor_hal_displayfeature_xiaomi_default, system_server)
 hal_client_domain(system_app, vendor_hal_displayfeature_xiaomi)
 hal_client_domain(platform_app, vendor_hal_displayfeature_xiaomi)
-hal_client_domain(platform_app_36, vendor_hal_displayfeature_xiaomi)
