@@ -28,5 +28,9 @@ genfscon sysfs /devices/platform/soc/soc:qcom,dsi-display-primary/wakeup u:objec
 genfscon sysfs /devices/platform/soc/ac0000.qcom,qupv3_0_geni_se/a90000.spi/spi_master/spi1/spi1.0/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/goodix_ts.0/wakeup u:object_r:sysfs_wakeup:s0
 
+# GPU
+genfscon sysfs /class/kgsl/kgsl-3d0/max_gpuclk                                     u:object_r:vendor_sysfs_kgsl_max_gpuclk:s0
+genfscon sysfs /devices/platform/soc/3d00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/max_gpuclk u:object_r:vendor_sysfs_kgsl_max_gpuclk:s0
+
 # Walt
 genfscon proc /sys/walt u:object_r:proc_walt:s0
