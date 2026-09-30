@@ -41,8 +41,21 @@ fi
 
 
 # Apply required source tree patches for chenfeng
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-bash "${SCRIPT_DIR}/apply-patches.sh"
+if [ -n "${BASH_SOURCE[0]}" ]; then
+    DEVICE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+elif [ -n "${ZSH_VERSION}" ]; then
+    DEVICE_DIR="$(cd "$(dirname "${(%):-%x}")" 2>/dev/null && pwd)"
+else
+    DEVICE_DIR="$(cd "$(dirname "$0")" 2>/dev/null && pwd)"
+fi
+
+if [ ! -f "${DEVICE_DIR}/apply-patches.sh" ] && [ -f "device/xiaomi/chenfeng/apply-patches.sh" ]; then
+    DEVICE_DIR="$(pwd)/device/xiaomi/chenfeng"
+fi
+
+if [ -f "${DEVICE_DIR}/apply-patches.sh" ]; then
+    bash "${DEVICE_DIR}/apply-patches.sh"
+fi
 
 # Finish clone all stuff
 # Happy Build and Brick
