@@ -107,7 +107,7 @@ SPDX-License-Identifier: Apache-2.0
     timeout expires.  May be less than the minimum allowed brightness setting
     that can be set by the user. -->
     <integer name="config_screenBrightnessDim">15</integer>
-    <item format="float" name="config_screenBrightnessDimFloat" type="dimen">0.000854597</item>
+    <item format="float" name="config_screenBrightnessDimFloat" type="dimen">0.05</item>
 
     <!-- Array of light sensor lux values to define our levels for auto backlight brightness support.
     The N entries of this array define N + 1 control points as follows:
